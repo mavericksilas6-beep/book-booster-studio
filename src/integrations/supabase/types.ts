@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      service_inquiries: {
+        Row: {
+          amazon_url: string | null
+          book_genre: string | null
+          book_title: string | null
+          client_email: string
+          client_name: string
+          created_at: string
+          goodreads_url: string | null
+          id: string
+          notes: string | null
+          selected_services: Json
+          status: string
+          total_estimate: number
+        }
+        Insert: {
+          amazon_url?: string | null
+          book_genre?: string | null
+          book_title?: string | null
+          client_email: string
+          client_name: string
+          created_at?: string
+          goodreads_url?: string | null
+          id?: string
+          notes?: string | null
+          selected_services?: Json
+          status?: string
+          total_estimate?: number
+        }
+        Update: {
+          amazon_url?: string | null
+          book_genre?: string | null
+          book_title?: string | null
+          client_email?: string
+          client_name?: string
+          created_at?: string
+          goodreads_url?: string | null
+          id?: string
+          notes?: string | null
+          selected_services?: Json
+          status?: string
+          total_estimate?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
