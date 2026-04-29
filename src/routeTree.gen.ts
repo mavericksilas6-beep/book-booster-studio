@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as OrderRouteImport } from './routes/order'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -22,6 +23,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const OrderRoute = OrderRouteImport.update({
   id: '/order',
   path: '/order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +43,14 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/order': typeof OrderRoute
   '/services': typeof ServicesRouteWithChildren
   '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/order': typeof OrderRoute
   '/services': typeof ServicesRouteWithChildren
   '/services/$slug': typeof ServicesSlugRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/order': typeof OrderRoute
   '/services': typeof ServicesRouteWithChildren
   '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/order' | '/services' | '/services/$slug'
+  fullPaths: '/' | '/about' | '/order' | '/services' | '/services/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/order' | '/services' | '/services/$slug'
-  id: '__root__' | '/' | '/order' | '/services' | '/services/$slug'
+  to: '/' | '/about' | '/order' | '/services' | '/services/$slug'
+  id: '__root__' | '/' | '/about' | '/order' | '/services' | '/services/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   OrderRoute: typeof OrderRoute
   ServicesRoute: typeof ServicesRouteWithChildren
 }
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       path: '/order'
       fullPath: '/order'
       preLoaderRoute: typeof OrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -115,6 +132,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   OrderRoute: OrderRoute,
   ServicesRoute: ServicesRouteWithChildren,
 }
