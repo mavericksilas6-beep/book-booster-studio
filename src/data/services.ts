@@ -22,6 +22,17 @@ export type Service = {
   icon: "search" | "feather" | "layout" | "users" | "list" | "image";
 };
 
+export type Bundle = {
+  slug: string;
+  name: string;
+  tagline: string;
+  price: number;
+  listPrice: number;
+  includes: string[]; // service slugs
+  highlight?: boolean;
+  why: string;
+};
+
 export const SERVICES: Service[] = [
   {
     slug: "amazon-seo",
@@ -54,12 +65,10 @@ export const SERVICES: Service[] = [
       { q: "Do I need to be in KDP Select?", a: "No. This works for any book listed on Amazon, wide or exclusive." },
     ],
     tiers: [
-      { name: "Single Title", price: 149, turnaround: "5 days", features: ["One book", "All deliverables included", "30-day check-in"] },
-      { name: "Series (up to 3)", price: 349, turnaround: "8 days", features: ["Up to 3 titles", "Series-level keyword strategy", "Cross-book linking"] },
-      { name: "Backlist (4+)", price: 99, turnaround: "Per book", features: ["Per-title pricing for 4+ books", "Volume strategy session", "Quarterly re-check"] },
+      { name: "Standard", price: 600, turnaround: "5 days", features: ["Full keyword & metadata overhaul", "Backend + categories + contributor fields", "30-day ranking check-in"] },
     ],
-    startingPrice: 149,
-    defaultTier: "Single Title",
+    startingPrice: 600,
+    defaultTier: "Standard",
     icon: "search",
   },
   {
@@ -92,10 +101,9 @@ export const SERVICES: Service[] = [
       { q: "What if I hate the first draft?", a: "Two revision rounds are included, and we always lead with your feedback. Most authors approve by round two." },
     ],
     tiers: [
-      { name: "Standard", price: 119, turnaround: "5 days", features: ["Full rewrite", "2 opening variations", "2 revision rounds"] },
-      { name: "Premium", price: 199, turnaround: "5 days", features: ["Everything in Standard", "Series/landing-page tagline", "Ad-headline package (5 hooks)"] },
+      { name: "Standard", price: 500, turnaround: "5 days", features: ["Full rewrite", "2 opening variations", "2 revision rounds", "HTML formatting", "Reusable tagline"] },
     ],
-    startingPrice: 119,
+    startingPrice: 500,
     defaultTier: "Standard",
     icon: "feather",
   },
@@ -126,13 +134,12 @@ export const SERVICES: Service[] = [
     faq: [
       { q: "Do I need a brand logo?", a: "No — for fiction, we usually build around your cover art and a typographic mark. We can design a simple author wordmark if you'd like." },
       { q: "Will this work for non-fiction?", a: "Yes, and the conversion lift tends to be even higher for non-fiction." },
-      { q: "Can you handle the actual upload?", a: "Optional add-on. Most authors prefer to upload themselves with our guide; we offer a done-for-you upload for an extra $40." },
+      { q: "Can you handle the actual upload?", a: "Yes — done-for-you upload is included." },
     ],
     tiers: [
-      { name: "Standard", price: 249, turnaround: "10 days", features: ["5 custom modules", "Cover-derived palette", "Upload guide"] },
-      { name: "Premium", price: 379, turnaround: "12 days", features: ["7 modules + author wordmark", "Done-for-you KDP upload", "Mobile-preview proof"] },
+      { name: "Standard", price: 500, turnaround: "10 days", features: ["5 custom modules", "Cover-derived palette", "Done-for-you KDP upload"] },
     ],
-    startingPrice: 249,
+    startingPrice: 500,
     defaultTier: "Standard",
     icon: "layout",
   },
@@ -166,11 +173,10 @@ export const SERVICES: Service[] = [
       { q: "I'm not verified as an author yet — can you help?", a: "Yes, that's the first step we handle." },
     ],
     tiers: [
-      { name: "Profile + 1 Book", price: 169, turnaround: "7 days", features: ["Full audit", "Author profile rebuild", "One book page optimized"] },
-      { name: "Profile + Series", price: 289, turnaround: "10 days", features: ["Everything above", "Up to 4 books linked as series", "Series landing strategy"] },
+      { name: "Standard", price: 500, turnaround: "7 days", features: ["Full audit", "Author profile rebuild", "One book page optimized", "Discussion questions for book clubs"] },
     ],
-    startingPrice: 169,
-    defaultTier: "Profile + 1 Book",
+    startingPrice: 500,
+    defaultTier: "Standard",
     icon: "users",
   },
   {
@@ -203,10 +209,9 @@ export const SERVICES: Service[] = [
       { q: "How long do results last?", a: "Years. Listopia lists are evergreen and continue ranking on Google long after the campaign ends." },
     ],
     tiers: [
-      { name: "Standard", price: 199, turnaround: "14 days", features: ["15+ lists", "Vote campaign", "30-day report"] },
-      { name: "Premium", price: 349, turnaround: "21 days", features: ["25+ lists", "5 new-list creations", "30 + 90 day reports"] },
+      { name: "Standard", price: 500, turnaround: "14 days", features: ["15–25 lists targeted", "Vote campaign", "30 + 90 day reports"] },
     ],
-    startingPrice: 199,
+    startingPrice: 500,
     defaultTier: "Standard",
     icon: "list",
   },
@@ -218,19 +223,19 @@ export const SERVICES: Service[] = [
     oneLiner:
       "We pull the unforgettable lines from your book and design them into ready-to-post graphics that feel like your book.",
     whatItIs:
-      "A curated set of 10–20 visual quote graphics, each pulled from a specific page of your book, designed in your cover's visual language. Sized for Instagram feed, Stories, and Reels covers. You schedule, post, repeat.",
+      "A curated set of 10–15 visual quote graphics, each pulled from a specific page of your book, designed in your cover's visual language. Sized for Instagram feed, Stories, and Reels covers. You schedule, post, repeat.",
     whyItMatters:
       "Quote graphics are the highest-saving, highest-sharing content on Bookstagram. They give readers something to hold onto and pass along — which means your book finds new readers organically while you sleep.",
     deliverables: [
-      "Curated selection of 10–20 quotes pulled from your book",
-      "Each quote designed in feed (1:1) and Story (9:16) sizes",
-      "PNG and editable Canva templates so you can recolor for seasons",
+      "10–15 curated quote graphics pulled from your book",
+      "Each quote in feed (1:1) and Story (9:16) sizes",
+      "PNG and editable Canva templates",
       "Caption suggestions for each post",
       "30-day posting calendar",
     ],
     process: [
       { title: "Read", description: "We read the book (or your highlights) and shortlist 30 quotable moments." },
-      { title: "Curate", description: "Together we pick the final 10–20 that hit hardest." },
+      { title: "Curate", description: "Together we pick the final 10–15 that hit hardest." },
       { title: "Design", description: "Each quote designed in the visual world of your cover." },
       { title: "Deliver", description: "All assets in a Drive folder + Canva templates + posting calendar." },
     ],
@@ -240,14 +245,48 @@ export const SERVICES: Service[] = [
       { q: "What if my book has spoilers?", a: "We're careful. Every quote is selected to intrigue without giving anything away." },
     ],
     tiers: [
-      { name: "Starter (10)", price: 89, turnaround: "5 days", features: ["10 quote graphics", "Feed + Story sizes", "Caption suggestions"] },
-      { name: "Full (20)", price: 159, turnaround: "8 days", features: ["20 quote graphics", "Editable Canva templates", "30-day posting calendar"] },
+      { name: "Standard", price: 300, turnaround: "5 days", features: ["10–15 quote graphics", "Feed + Story sizes", "Editable Canva templates", "30-day posting calendar"] },
     ],
-    startingPrice: 89,
-    defaultTier: "Starter (10)",
+    startingPrice: 300,
+    defaultTier: "Standard",
     icon: "image",
+  },
+];
+
+// Bundles ordered by importance/effectiveness, $1,200 – $2,000.
+export const BUNDLES: Bundle[] = [
+  {
+    slug: "foundation",
+    name: "Foundation",
+    tagline: "The launch trio: be found, convert, get shared.",
+    price: 1200,
+    listPrice: 1400, // 600+500+300
+    includes: ["amazon-seo", "book-description", "instagram-graphics"],
+    why: "If you only do three things, do these. Amazon SEO makes the book findable, the rewritten description converts the click, and quote graphics turn early readers into amplifiers. Save $200 vs. buying separately.",
+  },
+  {
+    slug: "authority",
+    name: "Authority",
+    tagline: "Foundation, plus the premium publisher polish.",
+    price: 1600,
+    listPrice: 1900, // 600+500+500+300
+    includes: ["amazon-seo", "book-description", "aplus-content", "instagram-graphics"],
+    highlight: true,
+    why: "Adds Amazon A+ Content — the visual modules that make your page look like a major publisher's. The conversion lift typically pays for the bundle within weeks. Save $300.",
+  },
+  {
+    slug: "marquee",
+    name: "Full Marquee",
+    tagline: "Everything we do, working in concert.",
+    price: 2000,
+    listPrice: 2900, // 600+500+500+500+500+300
+    includes: ["amazon-seo", "book-description", "aplus-content", "goodreads-optimization", "listopia-campaign", "instagram-graphics"],
+    why: "All six services. Amazon, Goodreads, and social all rebuilt and optimized in parallel. Permanent discoverability through Listopia, full credibility through Goodreads, and conversion polish across the board. Save $900.",
   },
 ];
 
 export const getService = (slug: string) =>
   SERVICES.find((s) => s.slug === slug);
+
+export const getBundle = (slug: string) =>
+  BUNDLES.find((b) => b.slug === slug);
