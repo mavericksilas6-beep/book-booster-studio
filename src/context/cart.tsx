@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { SERVICES, type Service } from "@/data/services";
+import { SERVICES, BUNDLES, type Service } from "@/data/services";
 
 export type CartItem = {
   slug: string;
@@ -16,6 +16,8 @@ type CartContextValue = {
   setQty: (slug: string, qty: number) => void;
   clear: () => void;
   has: (slug: string) => boolean;
+  applyBundle: (bundleSlug: string) => void;
+  activeBundleSlug: string | null;
   count: number;
   subtotal: number;
   bundleDiscount: number;
@@ -23,21 +25,31 @@ type CartContextValue = {
 };
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
-const STORAGE_KEY = "marginalia.cart.v1";
+const STORAGE_KEY = "marginalia.cart.v2";
+const BUNDLE_KEY = "marginalia.bundle.v1";
 
 function priceOf(service: Service, tierName: string) {
   const tier = service.tiers.find((t) => t.name === tierName) ?? service.tiers[0];
   return tier.price;
 }
 
+function bundleMatches(items: CartItem[], includes: string[]) {
+  if (items.length !== includes.length) return false;
+  const set = new Set(items.map((i) => i.slug));
+  return includes.every((s) => set.has(s));
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [activeBundleSlug, setActiveBundleSlug] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     try {
       const raw = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
       if (raw) setItems(JSON.parse(raw));
+      const b = typeof window !== "undefined" ? localStorage.getItem(BUNDLE_KEY) : null;
+      if (b) setActiveBundleSlug(b);
     } catch {
       // ignore
     }
@@ -48,22 +60,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (!hydrated) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      if (activeBundleSlug) localStorage.setItem(BUNDLE_KEY, activeBundleSlug);
+      else localStorage.removeItem(BUNDLE_KEY);
     } catch {
       // ignore
     }
-  }, [items, hydrated]);
+  }, [items, activeBundleSlug, hydrated]);
 
   const value = useMemo<CartContextValue>(() => {
+    const recomputeBundle = (next: CartItem[]) => {
+      // If current items exactly match a bundle, keep/set that bundle. Otherwise clear.
+      const match = BUNDLES.find((b) => bundleMatches(next, b.includes));
+      setActiveBundleSlug(match ? match.slug : null);
+    };
+
     const add = (slug: string, tier?: string) => {
       setItems((prev) => {
         if (prev.some((i) => i.slug === slug)) return prev;
         const service = SERVICES.find((s) => s.slug === slug);
         if (!service) return prev;
         const tierName = tier ?? service.defaultTier;
-        return [...prev, { slug, tier: tierName, price: priceOf(service, tierName), qty: 1 }];
+        const next = [...prev, { slug, tier: tierName, price: priceOf(service, tierName), qty: 1 }];
+        recomputeBundle(next);
+        return next;
       });
     };
-    const remove = (slug: string) => setItems((prev) => prev.filter((i) => i.slug !== slug));
+    const remove = (slug: string) =>
+      setItems((prev) => {
+        const next = prev.filter((i) => i.slug !== slug);
+        recomputeBundle(next);
+        return next;
+      });
     const setTier = (slug: string, tier: string) =>
       setItems((prev) =>
         prev.map((i) => {
@@ -74,17 +101,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
       );
     const setQty = (slug: string, qty: number) =>
       setItems((prev) => prev.map((i) => (i.slug === slug ? { ...i, qty: Math.max(1, qty) } : i)));
-    const clear = () => setItems([]);
+    const clear = () => {
+      setItems([]);
+      setActiveBundleSlug(null);
+    };
     const has = (slug: string) => items.some((i) => i.slug === slug);
 
+    const applyBundle = (bundleSlug: string) => {
+      const b = BUNDLES.find((x) => x.slug === bundleSlug);
+      if (!b) return;
+      const next: CartItem[] = b.includes
+        .map((slug) => SERVICES.find((s) => s.slug === slug))
+        .filter((s): s is Service => !!s)
+        .map((s) => ({ slug: s.slug, tier: s.defaultTier, price: priceOf(s, s.defaultTier), qty: 1 }));
+      setItems(next);
+      setActiveBundleSlug(b.slug);
+    };
+
     const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
-    const bundleRate = items.length >= 4 ? 0.15 : items.length >= 3 ? 0.1 : items.length >= 2 ? 0.05 : 0;
-    const bundleDiscount = Math.round(subtotal * bundleRate);
-    const total = subtotal - bundleDiscount;
+    const activeBundle = activeBundleSlug ? BUNDLES.find((b) => b.slug === activeBundleSlug) : null;
+    const bundleDiscount = activeBundle ? Math.max(0, subtotal - activeBundle.price) : 0;
+    const total = activeBundle ? activeBundle.price : subtotal;
     const count = items.length;
 
-    return { items, add, remove, setTier, setQty, clear, has, count, subtotal, bundleDiscount, total };
-  }, [items]);
+    return { items, add, remove, setTier, setQty, clear, has, applyBundle, activeBundleSlug, count, subtotal, bundleDiscount, total };
+  }, [items, activeBundleSlug]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
