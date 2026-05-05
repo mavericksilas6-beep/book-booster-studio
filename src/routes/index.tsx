@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Quote, Sparkles, Target, BadgeCheck } from "lucide-react";
-import { SERVICES } from "@/data/services";
+import { SERVICES, BUNDLES, getService } from "@/data/services";
 import { ServiceIcon } from "@/components/site/ServiceIcon";
+import { Check } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -117,13 +118,68 @@ function HomePage() {
               <h3 className="font-serif text-2xl text-foreground">{service.shortName}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{service.oneLiner}</p>
               <div className="mt-auto flex items-center justify-between pt-4 text-xs uppercase tracking-[0.18em]">
-                <span className="text-muted-foreground">From ${service.startingPrice}</span>
+                <span className="text-muted-foreground">${service.startingPrice}</span>
                 <span className="text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   Learn more →
                 </span>
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* Curated bundles */}
+      <section className="border-y hairline bg-secondary/30">
+        <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
+          <div className="mb-14 max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-primary">Curated packages</p>
+            <h2 className="mt-3 font-serif text-4xl text-foreground sm:text-5xl">
+              Three ways to launch — ordered by impact.
+            </h2>
+            <p className="mt-5 text-base text-muted-foreground">
+              Stack the services that work hardest together, save against the à-la-carte total. From $1,200 to $2,000.
+            </p>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-3">
+            {BUNDLES.map((b) => (
+              <div
+                key={b.slug}
+                className={`relative flex flex-col rounded-lg border bg-card p-7 ${
+                  b.highlight ? "border-primary shadow-md ring-1 ring-primary/30" : "hairline"
+                }`}
+              >
+                {b.highlight && (
+                  <span className="absolute -top-2.5 left-7 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-primary-foreground">
+                    <Sparkles className="h-3 w-3" /> Most popular
+                  </span>
+                )}
+                <h3 className="font-serif text-2xl text-foreground">{b.name}</h3>
+                <p className="mt-1 text-sm italic text-muted-foreground">{b.tagline}</p>
+                <div className="mt-5 flex items-baseline gap-2">
+                  <p className="font-serif text-4xl text-primary">${b.price.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground line-through">${b.listPrice.toLocaleString()}</p>
+                </div>
+                <ul className="mt-5 space-y-1.5">
+                  {b.includes.map((slug) => {
+                    const s = getService(slug);
+                    return (
+                      <li key={slug} className="flex items-start gap-2 text-sm text-foreground/80">
+                        <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
+                        <span>{s?.shortName ?? slug}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <p className="mt-5 text-xs leading-relaxed text-muted-foreground">{b.why}</p>
+                <Link
+                  to="/order"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Choose {b.name} <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

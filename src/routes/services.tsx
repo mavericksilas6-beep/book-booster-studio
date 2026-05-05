@@ -41,7 +41,7 @@ function ServicesPage() {
           Six services. Pick what your book needs.
         </h1>
         <p className="mt-6 text-lg text-muted-foreground">
-          Each service stands alone, but they multiply when stacked. Add 2 services for 5% off, 3 for 10%, 4 or more for 15%.
+          Each service stands alone, but they multiply when stacked. Build à la carte, or pick one of three curated packages from <Link to="/order" className="text-primary underline-offset-4 hover:underline">the package builder</Link>.
         </p>
       </div>
 
@@ -74,7 +74,7 @@ function ServicesPage() {
                     </ul>
                   </div>
                   <div className="w-full shrink-0 sm:w-auto sm:text-right">
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">From</p>
+                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Flat</p>
                     <p className="font-serif text-3xl text-foreground">${service.startingPrice}</p>
                     <p className="text-xs text-muted-foreground">{service.tiers[0].turnaround}</p>
                   </div>

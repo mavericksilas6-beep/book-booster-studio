@@ -40,19 +40,30 @@ function ContactPage() {
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("service_inquiries").insert({
+    const payload = {
       client_name: parsed.data.name,
       client_email: parsed.data.email,
       notes: parsed.data.message,
       selected_services: [],
       total_estimate: 0,
       status: "contact",
-    });
-    setSubmitting(false);
+    };
+    const { error } = await supabase.from("service_inquiries").insert(payload);
     if (error) {
+      setSubmitting(false);
       toast.error("Something went wrong. Please try again.");
       return;
     }
+    try {
+      await fetch("/api/notify-inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch {
+      // best-effort
+    }
+    setSubmitting(false);
     setSuccess(true);
   };
 
@@ -126,7 +137,12 @@ function ContactPage() {
         <aside className="space-y-6">
           <div className="rounded-lg border hairline bg-secondary/50 p-6">
             <Mail className="h-5 w-5 text-primary" />
-            <p className="mt-3 font-serif text-lg">hello@marginalia.studio</p>
+            <a
+              href="mailto:mavericksilas6@gmail.com"
+              className="mt-3 block font-serif text-lg hover:text-primary"
+            >
+              mavericksilas6@gmail.com
+            </a>
             <p className="mt-1 text-sm text-muted-foreground">For anything that doesn't fit a form.</p>
           </div>
           <div className="rounded-lg border hairline bg-secondary/50 p-6">

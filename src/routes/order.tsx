@@ -2,11 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 import { useCart } from "@/context/cart";
-import { SERVICES, getService } from "@/data/services";
+import { SERVICES, BUNDLES, getService } from "@/data/services";
 import { ServiceIcon } from "@/components/site/ServiceIcon";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Check, Plus, Trash2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Check, Plus, Trash2, CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/order")({
   head: () => ({
@@ -35,7 +35,7 @@ const inquirySchema = z.object({
 });
 
 function OrderPage() {
-  const { items, add, remove, setTier, has, subtotal, bundleDiscount, total, count, clear } = useCart();
+  const { items, add, remove, setTier, has, subtotal, bundleDiscount, total, count, clear, applyBundle, activeBundleSlug } = useCart();
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -84,11 +84,25 @@ function OrderPage() {
       total_estimate: total,
     };
     const { error } = await supabase.from("service_inquiries").insert(payload);
-    setSubmitting(false);
     if (error) {
+      setSubmitting(false);
       toast.error("Something went wrong submitting your request. Please try again.");
       return;
     }
+    // Notify the studio inbox. We don't block success on the email — the inquiry is already saved.
+    try {
+      await fetch("/api/notify-inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...payload,
+          bundle_slug: activeBundleSlug,
+        }),
+      });
+    } catch {
+      // ignore — admin notification is best-effort
+    }
+    setSubmitting(false);
     setSuccess(true);
     clear();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -120,16 +134,88 @@ function OrderPage() {
           Pick what your book needs.
         </h1>
         <p className="mt-5 text-lg text-muted-foreground">
-          Toggle services on, choose a tier, then tell us about your book. We'll send a confirmed quote within 24 hours — no payment required at this stage.
+          Start with a curated bundle below, or build à la carte. Tell us about your book and we'll confirm scope and quote within 24 hours — no payment at this stage.
         </p>
       </div>
+
+      {/* Bundles */}
+      <section className="mb-14">
+        <div className="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-primary">Curated packages</p>
+            <h2 className="mt-2 font-serif text-3xl text-foreground">Stack and save.</h2>
+          </div>
+          <p className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:block">Ordered by impact</p>
+        </div>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {BUNDLES.map((b) => {
+            const active = activeBundleSlug === b.slug;
+            return (
+              <div
+                key={b.slug}
+                className={`relative flex flex-col rounded-lg border p-6 transition-all ${
+                  active ? "border-primary bg-primary/5 shadow-md" : "hairline bg-card hover:shadow-sm"
+                } ${b.highlight ? "ring-1 ring-primary/30" : ""}`}
+              >
+                {b.highlight && (
+                  <span className="absolute -top-2.5 left-6 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-primary-foreground">
+                    <Sparkles className="h-3 w-3" /> Most popular
+                  </span>
+                )}
+                <h3 className="font-serif text-2xl text-foreground">{b.name}</h3>
+                <p className="mt-1 text-sm italic text-muted-foreground">{b.tagline}</p>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <p className="font-serif text-3xl text-primary">${b.price.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground line-through">${b.listPrice.toLocaleString()}</p>
+                </div>
+                <ul className="mt-4 space-y-1.5">
+                  {b.includes.map((slug) => {
+                    const s = getService(slug);
+                    return (
+                      <li key={slug} className="flex items-start gap-2 text-sm text-foreground/80">
+                        <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
+                        <span>{s?.shortName ?? slug}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{b.why}</p>
+                <button
+                  onClick={() => {
+                    applyBundle(b.slug);
+                    toast.success(`${b.name} package selected`);
+                  }}
+                  className={`mt-5 inline-flex w-full items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-opacity ${
+                    active
+                      ? "bg-primary/15 text-primary"
+                      : "bg-primary text-primary-foreground hover:opacity-90"
+                  }`}
+                >
+                  {active ? (
+                    <>
+                      <Check className="h-4 w-4" /> Selected
+                    </>
+                  ) : (
+                    <>Choose {b.name}</>
+                  )}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-4 text-xs text-muted-foreground">
+          Or build your own combination below — bundle pricing applies automatically when your selection matches a package.
+        </p>
+      </section>
 
       <div className="grid gap-12 lg:grid-cols-[1fr_360px]">
         {/* Builder */}
         <div className="space-y-4">
+          <h2 className="font-serif text-2xl text-foreground">À la carte</h2>
           {SERVICES.map((service) => {
             const inCart = has(service.slug);
             const item = items.find((i) => i.slug === service.slug);
+            const showTierPicker = inCart && service.tiers.length > 1;
             return (
               <div
                 key={service.slug}
@@ -155,7 +241,7 @@ function OrderPage() {
                       <h3 className="font-serif text-xl text-foreground">{service.name}</h3>
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">{service.oneLiner}</p>
-                    {inCart && (
+                    {showTierPicker && (
                       <div className="mt-4 grid gap-2 sm:grid-cols-3">
                         {service.tiers.map((tier) => {
                           const selected = item?.tier === tier.name;
@@ -177,12 +263,13 @@ function OrderPage() {
                         })}
                       </div>
                     )}
+                    {inCart && !showTierPicker && (
+                      <p className="mt-2 text-xs text-muted-foreground">{service.tiers[0].turnaround} turnaround</p>
+                    )}
                   </div>
-                  {!inCart && (
-                    <p className="hidden shrink-0 text-right text-sm text-muted-foreground sm:block">
-                      from <span className="font-serif text-lg text-foreground">${service.startingPrice}</span>
-                    </p>
-                  )}
+                  <p className="hidden shrink-0 text-right text-sm text-muted-foreground sm:block">
+                    <span className="font-serif text-lg text-foreground">${service.startingPrice}</span>
+                  </p>
                 </div>
               </div>
             );
@@ -270,21 +357,21 @@ function OrderPage() {
                 <div className="mt-4 space-y-2 border-t hairline pt-4 text-sm">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Subtotal</span>
-                    <span>${subtotal}</span>
+                    <span>${subtotal.toLocaleString()}</span>
                   </div>
                   {bundleDiscount > 0 ? (
                     <div className="flex justify-between text-primary">
-                      <span>Bundle savings ({count} services)</span>
-                      <span>−${bundleDiscount}</span>
+                      <span>Package savings</span>
+                      <span>−${bundleDiscount.toLocaleString()}</span>
                     </div>
-                  ) : (
+                  ) : !activeBundleSlug && count < SERVICES.length ? (
                     <p className="text-xs italic text-muted-foreground">
-                      Add {2 - count} more service{2 - count === 1 ? "" : "s"} for 5% off.
+                      Match a curated package above to unlock bundle pricing.
                     </p>
-                  )}
+                  ) : null}
                   <div className="flex justify-between border-t hairline pt-3 font-serif text-lg text-foreground">
                     <span>Estimate</span>
-                    <span>${total}</span>
+                    <span>${total.toLocaleString()}</span>
                   </div>
                 </div>
               </>
