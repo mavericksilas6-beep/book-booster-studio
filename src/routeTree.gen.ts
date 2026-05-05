@@ -16,6 +16,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ApiNotifyInquiryRouteImport } from './routes/api/notify-inquiry'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -52,6 +53,11 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ApiNotifyInquiryRoute = ApiNotifyInquiryRouteImport.update({
+  id: '/api/notify-inquiry',
+  path: '/api/notify-inquiry',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/order': typeof OrderRoute
   '/results': typeof ResultsRoute
   '/services': typeof ServicesRouteWithChildren
+  '/api/notify-inquiry': typeof ApiNotifyInquiryRoute
   '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/order': typeof OrderRoute
   '/results': typeof ResultsRoute
   '/services': typeof ServicesRouteWithChildren
+  '/api/notify-inquiry': typeof ApiNotifyInquiryRoute
   '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/order': typeof OrderRoute
   '/results': typeof ResultsRoute
   '/services': typeof ServicesRouteWithChildren
+  '/api/notify-inquiry': typeof ApiNotifyInquiryRoute
   '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/results'
     | '/services'
+    | '/api/notify-inquiry'
     | '/services/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/results'
     | '/services'
+    | '/api/notify-inquiry'
     | '/services/$slug'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/results'
     | '/services'
+    | '/api/notify-inquiry'
     | '/services/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   OrderRoute: typeof OrderRoute
   ResultsRoute: typeof ResultsRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  ApiNotifyInquiryRoute: typeof ApiNotifyInquiryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/api/notify-inquiry': {
+      id: '/api/notify-inquiry'
+      path: '/api/notify-inquiry'
+      fullPath: '/api/notify-inquiry'
+      preLoaderRoute: typeof ApiNotifyInquiryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -193,6 +213,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrderRoute: OrderRoute,
   ResultsRoute: ResultsRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  ApiNotifyInquiryRoute: ApiNotifyInquiryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
