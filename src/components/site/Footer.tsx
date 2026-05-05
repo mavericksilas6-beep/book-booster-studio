@@ -38,7 +38,12 @@ export function Footer() {
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-foreground">Get in touch</p>
-          <p className="mt-4 text-sm text-muted-foreground">hello@marginalia.studio</p>
+          <a
+            href="mailto:mavericksilas6@gmail.com"
+            className="mt-4 block text-sm text-muted-foreground hover:text-foreground"
+          >
+            mavericksilas6@gmail.com
+          </a>
           <p className="mt-1 text-sm text-muted-foreground">Replies within 24 hours, Mon–Fri.</p>
         </div>
       </div>
