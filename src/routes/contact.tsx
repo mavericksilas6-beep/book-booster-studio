@@ -48,7 +48,7 @@ function ContactPage() {
       total_estimate: 0,
       status: "contact",
     };
-    const { error } = await supabase.from("service_inquiries").insert(payload);
+    const { error } = await supabase.from("service_inquiries").insert([payload]);
     if (error) {
       setSubmitting(false);
       toast.error("Something went wrong. Please try again.");
