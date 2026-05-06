@@ -54,6 +54,12 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Marginalia — Boutique Marketing for Indie Authors" },
+      { name: "description", content: "Marginalia is a boutique book marketing studio for serious indie authors. We restructure Amazon SEO, rewrite descriptions that actually sell, design A+ content," },
+      { property: "og:description", content: "Marginalia is a boutique book marketing studio for serious indie authors. We restructure Amazon SEO, rewrite descriptions that actually sell, design A+ content," },
+      { name: "twitter:description", content: "Marginalia is a boutique book marketing studio for serious indie authors. We restructure Amazon SEO, rewrite descriptions that actually sell, design A+ content," },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/PlzrQaazmJNKtRzW0sTMcYFTRDE2/social-images/social-1778079637747-marginalia-logo.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/PlzrQaazmJNKtRzW0sTMcYFTRDE2/social-images/social-1778079637747-marginalia-logo.webp" },
     ],
     links: [
       {
