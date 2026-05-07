@@ -259,29 +259,29 @@ export const BUNDLES: Bundle[] = [
     slug: "foundation",
     name: "Foundation",
     tagline: "The launch trio: be found, convert, get shared.",
-    price: 1200,
+    price: 1000,
     listPrice: 1400, // 600+500+300
     includes: ["amazon-seo", "book-description", "instagram-graphics"],
-    why: "If you only do three things, do these. Amazon SEO makes the book findable, the rewritten description converts the click, and quote graphics turn early readers into amplifiers. Save $200 vs. buying separately.",
+    why: "If you only do three things, do these. Amazon SEO makes the book findable, the rewritten description converts the click, and quote graphics turn early readers into amplifiers. Save $400 vs. buying separately.",
   },
   {
     slug: "authority",
     name: "Authority",
     tagline: "Foundation, plus the premium publisher polish.",
-    price: 1600,
+    price: 1250,
     listPrice: 1900, // 600+500+500+300
     includes: ["amazon-seo", "book-description", "aplus-content", "instagram-graphics"],
     highlight: true,
-    why: "Adds Amazon A+ Content — the visual modules that make your page look like a major publisher's. The conversion lift typically pays for the bundle within weeks. Save $300.",
+    why: "Adds Amazon A+ Content — the visual modules that make your page look like a major publisher's. The conversion lift typically pays for the bundle within weeks. Save $650.",
   },
   {
     slug: "marquee",
     name: "Full Marquee",
     tagline: "Everything we do, working in concert.",
-    price: 2000,
+    price: 1500,
     listPrice: 2900, // 600+500+500+500+500+300
     includes: ["amazon-seo", "book-description", "aplus-content", "goodreads-optimization", "listopia-campaign", "instagram-graphics"],
-    why: "All six services. Amazon, Goodreads, and social all rebuilt and optimized in parallel. Permanent discoverability through Listopia, full credibility through Goodreads, and conversion polish across the board. Save $900.",
+    why: "All six services. Amazon, Goodreads, and social all rebuilt and optimized in parallel. Permanent discoverability through Listopia, full credibility through Goodreads, and conversion polish across the board. Save $1,400.",
   },
 ];
 
