@@ -209,6 +209,8 @@ function HomePage() {
 
       {/* Process */}
       <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
+        {/* placeholder */}
+      </section>
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <p className="text-xs uppercase tracking-[0.22em] text-primary">Working together</p>
