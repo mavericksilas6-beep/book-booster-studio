@@ -5,6 +5,7 @@ import { BookOpen } from "lucide-react";
 const NAV = [
   { to: "/services", label: "Services" },
   { to: "/results", label: "Results" },
+  { to: "/testimonials", label: "Testimonials" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
