@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as OrderRouteImport } from './routes/order'
@@ -18,6 +19,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as ApiNotifyInquiryRouteImport } from './routes/api/notify-inquiry'
 
+const TestimonialsRoute = TestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/order': typeof OrderRoute
   '/results': typeof ResultsRoute
   '/services': typeof ServicesRouteWithChildren
+  '/testimonials': typeof TestimonialsRoute
   '/api/notify-inquiry': typeof ApiNotifyInquiryRoute
   '/services/$slug': typeof ServicesSlugRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/order': typeof OrderRoute
   '/results': typeof ResultsRoute
   '/services': typeof ServicesRouteWithChildren
+  '/testimonials': typeof TestimonialsRoute
   '/api/notify-inquiry': typeof ApiNotifyInquiryRoute
   '/services/$slug': typeof ServicesSlugRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/order': typeof OrderRoute
   '/results': typeof ResultsRoute
   '/services': typeof ServicesRouteWithChildren
+  '/testimonials': typeof TestimonialsRoute
   '/api/notify-inquiry': typeof ApiNotifyInquiryRoute
   '/services/$slug': typeof ServicesSlugRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/results'
     | '/services'
+    | '/testimonials'
     | '/api/notify-inquiry'
     | '/services/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/results'
     | '/services'
+    | '/testimonials'
     | '/api/notify-inquiry'
     | '/services/$slug'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/results'
     | '/services'
+    | '/testimonials'
     | '/api/notify-inquiry'
     | '/services/$slug'
   fileRoutesById: FileRoutesById
@@ -130,11 +142,19 @@ export interface RootRouteChildren {
   OrderRoute: typeof OrderRoute
   ResultsRoute: typeof ResultsRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  TestimonialsRoute: typeof TestimonialsRoute
   ApiNotifyInquiryRoute: typeof ApiNotifyInquiryRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/testimonials': {
+      id: '/testimonials'
+      path: '/testimonials'
+      fullPath: '/testimonials'
+      preLoaderRoute: typeof TestimonialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -213,6 +233,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrderRoute: OrderRoute,
   ResultsRoute: ResultsRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  TestimonialsRoute: TestimonialsRoute,
   ApiNotifyInquiryRoute: ApiNotifyInquiryRoute,
 }
 export const routeTree = rootRouteImport
