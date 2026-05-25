@@ -207,10 +207,46 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Voices */}
+      <section className="border-y hairline bg-background">
+        <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
+          <div className="mb-14 flex items-end justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-primary">Voices</p>
+              <h2 className="mt-3 font-serif text-4xl text-foreground sm:text-5xl">
+                What authors say after the work is done.
+              </h2>
+            </div>
+            <Link
+              to="/testimonials"
+              className="hidden shrink-0 text-sm font-medium text-primary hover:underline sm:inline-flex sm:items-center sm:gap-1"
+            >
+              All testimonials <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="columns-1 gap-6 md:columns-2 lg:columns-3 [&>*]:mb-6">
+            {FEATURED_TESTIMONIALS.map((t) => (
+              <figure
+                key={t.name + t.bookTitle}
+                className="break-inside-avoid rounded-lg border hairline bg-card p-7 shadow-sm"
+              >
+                <Quote className="h-5 w-5 text-primary/60" />
+                <blockquote className="mt-3 font-serif text-lg italic leading-snug text-foreground">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+                <figcaption className="mt-5 border-t border-primary/20 pt-4">
+                  <p className="font-serif text-base text-foreground">{t.name}</p>
+                  <p className="mt-0.5 text-sm italic text-muted-foreground">{t.bookTitle}</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{t.genre}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Process */}
       <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
-        {/* placeholder */}
-      </section>
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <p className="text-xs uppercase tracking-[0.22em] text-primary">Working together</p>
