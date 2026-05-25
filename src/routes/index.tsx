@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Quote, Sparkles, Target, BadgeCheck } from "lucide-react";
 import { SERVICES, BUNDLES, getService } from "@/data/services";
 import { ServiceIcon } from "@/components/site/ServiceIcon";
+import { FEATURED_TESTIMONIALS } from "@/data/testimonials";
 import { Check } from "lucide-react";
 
 export const Route = createFileRoute("/")({
