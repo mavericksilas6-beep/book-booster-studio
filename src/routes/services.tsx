@@ -26,7 +26,7 @@ export const Route = createFileRoute("/services")({
 });
 
 function ServicesPage() {
-  const { add, has, count, total, subtotal, bundleDiscount } = useCart();
+  const { add, has, count } = useCart();
 
   const handleAdd = (slug: string, name: string) => {
     add(slug);
@@ -74,9 +74,8 @@ function ServicesPage() {
                     </ul>
                   </div>
                   <div className="w-full shrink-0 sm:w-auto sm:text-right">
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Flat</p>
-                    <p className="font-serif text-3xl text-foreground">${service.startingPrice}</p>
-                    <p className="text-xs text-muted-foreground">{service.tiers[0].turnaround}</p>
+                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Turnaround</p>
+                    <p className="font-serif text-xl text-foreground">{service.tiers[0].turnaround}</p>
                   </div>
                 </div>
                 <div className="mt-6 flex flex-wrap items-center gap-3 border-t hairline pt-5">
@@ -117,25 +116,12 @@ function ServicesPage() {
             </p>
             {count === 0 ? (
               <p className="mt-3 text-sm text-muted-foreground">
-                Add services as you read. Bundle discounts apply automatically.
+                Add services as you read. Submit when your package feels right.
               </p>
             ) : (
-              <div className="mt-4 space-y-2 text-sm">
-                <div className="flex justify-between text-muted-foreground">
-                  <span>Subtotal</span>
-                  <span>${subtotal}</span>
-                </div>
-                {bundleDiscount > 0 && (
-                  <div className="flex justify-between text-primary">
-                    <span>Bundle savings</span>
-                    <span>−${bundleDiscount}</span>
-                  </div>
-                )}
-                <div className="flex justify-between border-t hairline pt-2 font-serif text-lg text-foreground">
-                  <span>Estimate</span>
-                  <span>${total}</span>
-                </div>
-              </div>
+              <p className="mt-3 text-sm text-muted-foreground">
+                When you're ready, send it over and we'll reply with a tailored scope and quote.
+              </p>
             )}
             <Link
               to="/order"

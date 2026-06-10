@@ -78,12 +78,20 @@ function ServiceDetailPage() {
           <div className="space-y-16 lg:col-span-8">
             <section>
               <h2 className="font-serif text-3xl text-foreground">What it is</h2>
-              <p className="mt-4 text-lg leading-relaxed text-foreground/80">{service.whatItIs}</p>
+              <div className="mt-4 space-y-4 text-lg leading-relaxed text-foreground/80">
+                {service.whatItIs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
             </section>
 
             <section>
               <h2 className="font-serif text-3xl text-foreground">Why it matters</h2>
-              <p className="mt-4 text-lg leading-relaxed text-foreground/80">{service.whyItMatters}</p>
+              <div className="mt-4 space-y-4 text-lg leading-relaxed text-foreground/80">
+                {service.whyItMatters.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
             </section>
 
             <section>
@@ -135,17 +143,14 @@ function ServiceDetailPage() {
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-24 space-y-6">
               <div className="rounded-lg border hairline bg-card p-6">
-                <p className="text-xs uppercase tracking-[0.22em] text-primary">Pricing</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-primary">Engagement</p>
                 <div className="mt-4 space-y-4">
                   {service.tiers.map((tier) => (
                     <div
                       key={tier.name}
                       className="rounded-md border hairline bg-background p-4"
                     >
-                      <div className="flex items-baseline justify-between">
-                        <p className="font-serif text-lg text-foreground">{tier.name}</p>
-                        <p className="font-serif text-xl text-primary">${tier.price}</p>
-                      </div>
+                      <p className="font-serif text-lg text-foreground">{tier.name}</p>
                       <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">
                         {tier.turnaround}
                       </p>
