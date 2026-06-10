@@ -1,39 +1,43 @@
-## Add author testimonials
+## Goal
+Remove all prices across the site and expand each service with richer narrative copy.
 
-Create a dedicated testimonials page and surface a curated subset on the homepage.
+## 1. Strip pricing from data (`src/data/services.ts`)
+- Keep the `ServiceTier`, `Service`, and `Bundle` types but stop using price-related fields in the UI. Leave the fields in place for now (no breaking schema change), but in the components we'll ignore them.
+- Expand each of the 6 services' `whatItIs` and `whyItMatters` from one paragraph to 2–3 richer paragraphs (longer narrative, same warm tone). Services affected:
+  1. Amazon SEO Optimization
+  2. Book Description Rewrite
+  3. Amazon A+ Content
+  4. Goodreads Profile & Book Page
+  5. Goodreads Listopia Campaign
+  6. Instagram Quote Graphics
 
-### 1. Shared data file — `src/data/testimonials.ts`
+## 2. Services list page (`src/routes/services.tsx`)
+- Remove the right-column "Flat $X / turnaround" price block on each service card.
+- Right-side sticky "Your package" sidebar: remove Subtotal, Bundle savings, Estimate. Keep the service count and the CTA button ("Start a package" / "Review & submit").
+- Update copy below the CTA to drop the "quote within 24 hours" pricing implication only if it reads as money-focused — keep the inquiry framing.
 
-One source of truth, imported by both the new page and the homepage.
+## 3. Service detail page (`src/routes/services.$slug.tsx`)
+- Pricing sidebar: remove the per-tier price, keep tier name, turnaround, and feature list (rename heading from "Pricing" to "What's included" or "Engagement").
+- Keep "Add to package" and "Build your package" CTAs.
 
-- 1 real testimonial: **Thomas Hardy**, *Where the Sabiá Bird Sings*.
-- 5 fictional testimonials in the same warm, literary tone as the existing Helena Bauer quote (different genres: literary, historical, romance, thriller, memoir).
-- Each entry: `name`, `bookTitle`, `genre`, `quote` (2–4 sentences), `service` (which Marginalia service they used), optional `featured: true` flag for the 3 shown on the homepage.
+## 4. Order / cart page (`src/routes/order.tsx`)
+- Remove all dollar amounts: subtotal, bundle discount line, total, bundle "save $X" callouts, bundle list prices.
+- Bundle cards: keep name, tagline, included services, and "why" copy. Remove price and listPrice display.
+- Inquiry summary: list selected services by name only, no totals.
 
-### 2. New route — `src/routes/testimonials.tsx`
+## 5. Homepage (`src/routes/index.tsx`)
+- Scan for any price mentions (bundle teasers, "from $X" copy) and remove. Keep CTAs.
 
-- Unique `head()` meta: title "Testimonials — Marginalia", own description and og tags.
-- Hero: small eyebrow "Testimonials", serif H1 "What authors say after the work is done.", short intro paragraph.
-- Masonry editorial layout: CSS columns (`columns-1 md:columns-2 lg:columns-3`) with `break-inside-avoid` quote cards so varying quote lengths stagger naturally like a magazine spread.
-- Each card: serif italic pull-quote with a `Quote` lucide icon, then author name, book title (italic), genre, and the service tag as a small chip. Walnut/cream palette already in tokens.
-- Closing CTA band linking to `/order` (matches the existing pattern on About/Results).
+## 6. Cart context (`src/context/cart.tsx`)
+- Leave logic untouched (subtotal/total still computed) so nothing breaks; just stop rendering those values. No schema change.
 
-### 3. Homepage section — `src/routes/index.tsx`
+## Out of scope
+- No backend changes, no new routes, no design-token changes.
+- Testimonials, header, footer untouched.
 
-- Insert a new "Voices" section between the Pillars and Process sections.
-- Eyebrow + serif heading + 3 featured testimonials in a smaller masonry block.
-- "Read all testimonials →" link to `/testimonials`.
-
-### 4. Navigation — `src/components/site/Header.tsx`
-
-- Add `{ to: "/testimonials", label: "Testimonials" }` to `NAV`, between Results and About.
-
-### 5. Footer — `src/components/site/Footer.tsx`
-
-- Add Testimonials link under the Studio column.
-
-### Technical notes
-
-- All new colors/typography use existing semantic tokens (`text-primary`, `text-foreground`, `font-serif`, `hairline`, `bg-secondary/40`) — no new design tokens.
-- No backend, no new dependencies. Pure presentation.
-- TanStack Start route file convention; route file created before any `<Link to="/testimonials">` so typecheck passes.
+## Files to edit
+- `src/data/services.ts` (narrative expansion only)
+- `src/routes/services.tsx`
+- `src/routes/services.$slug.tsx`
+- `src/routes/order.tsx`
+- `src/routes/index.tsx` (audit + strip any price mentions)
