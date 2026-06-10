@@ -134,7 +134,7 @@ function OrderPage() {
           Pick what your book needs.
         </h1>
         <p className="mt-5 text-lg text-muted-foreground">
-          Start with a curated bundle below, or build à la carte. Tell us about your book and we'll confirm scope and quote within 24 hours — no payment at this stage.
+          Start with a curated package below, or build à la carte. Tell us about your book and we'll confirm scope and a tailored quote within one business day — no payment at this stage.
         </p>
       </div>
 
@@ -143,7 +143,7 @@ function OrderPage() {
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-primary">Curated packages</p>
-            <h2 className="mt-2 font-serif text-3xl text-foreground">Stack and save.</h2>
+            <h2 className="mt-2 font-serif text-3xl text-foreground">Three ways to launch.</h2>
           </div>
           <p className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:block">Ordered by impact</p>
         </div>
@@ -164,10 +164,6 @@ function OrderPage() {
                 )}
                 <h3 className="font-serif text-2xl text-foreground">{b.name}</h3>
                 <p className="mt-1 text-sm italic text-muted-foreground">{b.tagline}</p>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <p className="font-serif text-3xl text-primary">${b.price.toLocaleString()}</p>
-                  <p className="text-sm text-muted-foreground line-through">${b.listPrice.toLocaleString()}</p>
-                </div>
                 <ul className="mt-4 space-y-1.5">
                   {b.includes.map((slug) => {
                     const s = getService(slug);
@@ -204,7 +200,7 @@ function OrderPage() {
           })}
         </div>
         <p className="mt-4 text-xs text-muted-foreground">
-          Or build your own combination below — bundle pricing applies automatically when your selection matches a package.
+          Or build your own combination below — pick exactly the services your book needs.
         </p>
       </section>
 
@@ -257,7 +253,6 @@ function OrderPage() {
                             >
                               <p className="font-serif text-base text-foreground">{tier.name}</p>
                               <p className="text-xs text-muted-foreground">{tier.turnaround}</p>
-                              <p className="mt-1 font-serif text-lg text-primary">${tier.price}</p>
                             </button>
                           );
                         })}
@@ -267,9 +262,6 @@ function OrderPage() {
                       <p className="mt-2 text-xs text-muted-foreground">{service.tiers[0].turnaround} turnaround</p>
                     )}
                   </div>
-                  <p className="hidden shrink-0 text-right text-sm text-muted-foreground sm:block">
-                    <span className="font-serif text-lg text-foreground">${service.startingPrice}</span>
-                  </p>
                 </div>
               </div>
             );
@@ -341,7 +333,6 @@ function OrderPage() {
                           <p className="text-xs text-muted-foreground">{i.tier}</p>
                         </div>
                         <div className="flex shrink-0 items-center gap-3">
-                          <span className="font-serif text-base text-foreground">${i.price}</span>
                           <button
                             onClick={() => remove(i.slug)}
                             aria-label={`Remove ${s.name}`}
@@ -354,26 +345,6 @@ function OrderPage() {
                     );
                   })}
                 </ul>
-                <div className="mt-4 space-y-2 border-t hairline pt-4 text-sm">
-                  <div className="flex justify-between text-muted-foreground">
-                    <span>Subtotal</span>
-                    <span>${subtotal.toLocaleString()}</span>
-                  </div>
-                  {bundleDiscount > 0 ? (
-                    <div className="flex justify-between text-primary">
-                      <span>Package savings</span>
-                      <span>−${bundleDiscount.toLocaleString()}</span>
-                    </div>
-                  ) : !activeBundleSlug && count < SERVICES.length ? (
-                    <p className="text-xs italic text-muted-foreground">
-                      Match a curated package above to unlock bundle pricing.
-                    </p>
-                  ) : null}
-                  <div className="flex justify-between border-t hairline pt-3 font-serif text-lg text-foreground">
-                    <span>Estimate</span>
-                    <span>${total.toLocaleString()}</span>
-                  </div>
-                </div>
               </>
             )}
             <button
@@ -386,7 +357,7 @@ function OrderPage() {
               {submitting ? "Submitting…" : "Submit inquiry"}
             </button>
             <p className="mt-3 text-xs text-muted-foreground">
-              Estimates only. Final quote confirmed in your reply email — no payment until you approve.
+              We'll reply with a tailored scope and quote — no payment until you approve.
             </p>
           </div>
         </aside>
