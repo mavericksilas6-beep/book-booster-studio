@@ -118,8 +118,7 @@ function HomePage() {
               <ServiceIcon name={service.icon} className="h-6 w-6 text-primary" />
               <h3 className="font-serif text-2xl text-foreground">{service.shortName}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{service.oneLiner}</p>
-              <div className="mt-auto flex items-center justify-between pt-4 text-xs uppercase tracking-[0.18em]">
-                <span className="text-muted-foreground">${service.startingPrice}</span>
+              <div className="mt-auto flex items-center justify-end pt-4 text-xs uppercase tracking-[0.18em]">
                 <span className="text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   Learn more →
                 </span>
@@ -138,7 +137,7 @@ function HomePage() {
               Three ways to launch — ordered by impact.
             </h2>
             <p className="mt-5 text-base text-muted-foreground">
-              Stack the services that work hardest together, save against the à-la-carte total. From $1,200 to $2,000.
+              Stack the services that work hardest together. Three curated combinations, each designed around a different launch shape.
             </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
@@ -156,10 +155,6 @@ function HomePage() {
                 )}
                 <h3 className="font-serif text-2xl text-foreground">{b.name}</h3>
                 <p className="mt-1 text-sm italic text-muted-foreground">{b.tagline}</p>
-                <div className="mt-5 flex items-baseline gap-2">
-                  <p className="font-serif text-4xl text-primary">${b.price.toLocaleString()}</p>
-                  <p className="text-sm text-muted-foreground line-through">${b.listPrice.toLocaleString()}</p>
-                </div>
                 <ul className="mt-5 space-y-1.5">
                   {b.includes.map((slug) => {
                     const s = getService(slug);
