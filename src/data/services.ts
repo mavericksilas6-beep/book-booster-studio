@@ -11,8 +11,8 @@ export type Service = {
   shortName: string;
   tagline: string;
   oneLiner: string;
-  whatItIs: string;
-  whyItMatters: string;
+  whatItIs: string[];
+  whyItMatters: string[];
   deliverables: string[];
   process: { title: string; description: string }[];
   faq: { q: string; a: string }[];
@@ -41,10 +41,16 @@ export const SERVICES: Service[] = [
     tagline: "Be found by the readers who are already searching.",
     oneLiner:
       "Restructure metadata, backend keywords, and categories so your book surfaces for the searches that matter.",
-    whatItIs:
-      "A full overhaul of how your book is indexed inside Amazon — title metadata, subtitle, seven backend keyword fields, two category placements, and the often-ignored series and contributor fields. Every input is researched from real Amazon search data, not guesswork.",
-    whyItMatters:
-      "Amazon is the world's largest book search engine. Most indie authors leave 60–80% of their discoverability on the table simply because their keywords describe the book they wrote, not the searches readers actually type. We close that gap.",
+    whatItIs: [
+      "A full overhaul of how your book is indexed inside Amazon — title metadata, subtitle, the seven backend keyword fields, two category placements, and the quietly important series and contributor fields. Every input is researched from real Amazon search behaviour, not guesswork or generic SEO advice borrowed from other industries.",
+      "We treat your listing as a small machine with seven or eight moving parts. Each one is tuned to a specific kind of reader query — broad genre searches, mood-based searches, comp-author searches, setting-and-era searches. When the parts agree, Amazon's algorithm starts surfacing your book in places you never paid for.",
+      "You receive a paste-ready document so you (or we) can update KDP in a single sitting, plus the reasoning behind every choice so you can defend it to a co-author, agent, or sceptical inner editor.",
+    ],
+    whyItMatters: [
+      "Amazon is the world's largest book search engine. Most indie authors leave sixty to eighty percent of their discoverability on the table simply because their keywords describe the book they wrote, not the searches readers actually type. The gap between those two things is where careers stall.",
+      "Fixing it is not about gaming a system. It is about translating your novel into the vocabulary readers already use when they go looking — and then making sure Amazon hears that translation clearly. Once it does, the book starts being recommended alongside the comp titles you've always belonged next to.",
+      "This is the single highest-leverage change most authors can make, and it compounds. Every other piece of marketing — ads, social, mailing list — gets cheaper and easier once the underlying listing is doing its job.",
+    ],
     deliverables: [
       "Keyword research report (25+ ranked phrases with search volume signals)",
       "Optimized title and subtitle recommendations",
@@ -78,10 +84,16 @@ export const SERVICES: Service[] = [
     tagline: "From summary to sales page.",
     oneLiner:
       "Transform a flat plot summary into an emotionally hook-heavy description that converts browsers into buyers.",
-    whatItIs:
-      "A complete rewrite of your Amazon book description using direct-response copywriting principles adapted for fiction. Hook, stakes, emotional pivot, social proof slot, and a clear call to action — formatted with HTML so it renders beautifully on every device.",
-    whyItMatters:
-      "Most browsers spend less than 8 seconds on a book page. Your description is the only place where you have a real chance to convert curiosity into a click. A summary tells what happens. A sales-driven description makes someone need to know what happens.",
+    whatItIs: [
+      "A complete rewrite of your Amazon book description using direct-response copywriting principles adapted for fiction. Hook, stakes, emotional pivot, social-proof slot, and a clear call to action — built in your voice, not ours.",
+      "We work from your existing description, sample chapters, reviews, and the comp titles you'd be proud to be shelved next to. The goal is a page that reads like the book itself — warm if you're warm, sharp if you're sharp — but engineered to convert a curious browser into a buyer.",
+      "Delivery is HTML-formatted with bold lead lines and clean paragraphs so it renders beautifully on mobile, tablet, and desktop. You also get two alternate opening hooks for live A/B testing and a reusable tagline for ads, your website, and social.",
+    ],
+    whyItMatters: [
+      "Most browsers spend fewer than eight seconds on a book page before they decide. Your description is the only place on the page where you have a real chance to convert curiosity into a click — your cover got them to look, your description has to make them act.",
+      "A summary tells what happens. A sales-driven description makes someone need to know what happens. The difference is structural: which sentence opens, which detail you withhold, where the emotional pivot lands, what the final line asks of the reader.",
+      "Once it's right, every dollar you spend on ads works harder, every recommendation lands cleaner, and the book stops leaking readers at the exact moment it had earned the right to keep them.",
+    ],
     deliverables: [
       "Fully rewritten description (250–400 words, optimized for length)",
       "Two opening-hook variations to A/B test",
@@ -114,10 +126,16 @@ export const SERVICES: Service[] = [
     tagline: "The premium book-page polish trad publishers don't talk about.",
     oneLiner:
       "Visual, branded content panels that make your Amazon page look like a major publisher's — because most indie authors don't even know this exists.",
-    whatItIs:
-      "Amazon A+ Content is a feature inside KDP that lets you add image-and-text modules below your description. We design and build the modules — comparison charts, atmospheric quote panels, author intro, what-readers-are-saying — and ship them ready to upload.",
-    whyItMatters:
-      "Amazon's own data shows A+ Content can lift conversion by 3–10%. More importantly, it signals 'this is a serious book.' Readers browsing fast on mobile pause when they hit branded visuals. Most indie books skip this entirely. Yours won't.",
+    whatItIs: [
+      "Amazon A+ Content is a quiet feature inside KDP that lets you add image-and-text modules below your description. Trad publishers use it on nearly every title. Indie authors almost never do — usually because no one told them it existed.",
+      "We design and build five custom modules for your book: a hero panel, an atmospheric quote, a comparison or testimonial block, an author introduction, and a clear closing CTA. Each one is drawn from your cover's palette, your prose's voice, and the visual mood of the book itself, so the page reads as one cohesive object instead of a collage.",
+      "Final delivery includes upload-ready files in Amazon's exact dimensions, a step-by-step KDP guide, and (if you'd like) done-for-you uploading so you never have to touch the dashboard.",
+    ],
+    whyItMatters: [
+      "Amazon's own data shows A+ Content can lift conversion by three to ten percent. More importantly, it signals seriousness. Readers browsing fast on mobile pause when they hit branded visuals — the same pause that happens in a bookstore when something on a display table catches the eye.",
+      "It is also one of the few places left on Amazon where indie authors can visibly out-class the competition. Most indie books skip A+ entirely, which means a single afternoon of design can put your page in the top five percent of its category for sheer polish.",
+      "The lift is permanent, not seasonal — the modules sit on your page forever, doing quiet conversion work every day a reader lands on it.",
+    ],
     deliverables: [
       "5 custom A+ modules (hero, atmosphere, comparison/testimonial, author, CTA)",
       "Original graphics designed in your book's color palette",
@@ -150,10 +168,16 @@ export const SERVICES: Service[] = [
     tagline: "Build trust with 150 million readers.",
     oneLiner:
       "Polish your author profile and book page so librarians, book clubs, and genre readers take you seriously.",
-    whatItIs:
-      "A full audit and rebuild of your Goodreads presence — author photo and bio, book metadata, additional editions, series setup, Q&A seeding, ask-the-author, and the book-page layout most authors get wrong.",
-    whyItMatters:
-      "Goodreads is where readers go after Amazon. It's also where librarians decide whether to recommend you and where book clubs choose their next read. A patchy Goodreads page quietly tells them you're not a real author. Polish reverses that signal in an hour of reading.",
+    whatItIs: [
+      "A full audit and rebuild of your Goodreads presence — author photo and bio (long and short versions), book metadata, additional editions, series setup, contributor links, Q&A seeding, ask-the-author activation, and the book-page layout most authors quietly get wrong.",
+      "We also write a Goodreads-specific blurb (the rules and reader expectations are different from Amazon) and a set of five to eight reading-group discussion questions designed to attract book clubs — one of the most underrated drivers of long-tail sales in fiction.",
+      "You can either hand us the keys and we'll do the updates, or take everything as a clean, annotated checklist and apply it yourself in an afternoon.",
+    ],
+    whyItMatters: [
+      "Goodreads is where readers go after Amazon — to verify, to vet, to decide whether a book is worth the next forty hours of their life. It is also where librarians decide whether to recommend you, and where book clubs choose their next read.",
+      "A patchy Goodreads page quietly tells those readers you're not a real author. It isn't fair, but it is true. Polish reverses that signal in the space of a single visit, often without the reader being able to articulate what changed.",
+      "And unlike ads, this work doesn't expire. A rebuilt Goodreads presence keeps earning trust every time a curious reader, a librarian, or a journalist looks you up — for years.",
+    ],
     deliverables: [
       "Rewritten author bio (long and short versions)",
       "Verified author profile setup",
@@ -186,10 +210,16 @@ export const SERVICES: Service[] = [
     tagline: "Permanent discoverability that ranks on Google.",
     oneLiner:
       "Get your book added to highly-searched Listopia lists that drive readers for years, not weeks.",
-    whatItIs:
-      "Identification of 15–25 relevant Listopia lists where your book belongs, plus an outreach and voting campaign to get it added and surfaced. Examples: 'Historical Fiction Set in Germany,' 'Strong Unwed Mothers in Literature,' 'Genealogical Sagas.'",
-    whyItMatters:
-      "Listopia lists rank on Google. A reader searching 'best historical fiction set in 19th century Germany' lands on a Goodreads list — and your book is on it. This is permanent, compounding discoverability that no ad spend can replicate.",
+    whatItIs: [
+      "Identification of fifteen to twenty-five relevant Listopia lists where your book genuinely belongs, plus an outreach and voting campaign to get it added and surfaced. Examples: 'Historical Fiction Set in Germany,' 'Strong Unwed Mothers in Literature,' 'Genealogical Sagas,' 'Books That Feel Like a Long Letter Home.'",
+      "Where a perfect-fit list doesn't yet exist, we'll create it — five new lists per campaign, written so the list itself reads like a thoughtful recommendation from a well-read friend rather than a marketing exercise.",
+      "Activation is done within Goodreads' terms of service using real readers who've actually engaged with your book. No bots, no fake accounts, no shortcuts that risk delisting. You receive a performance report at thirty and ninety days showing list rank and Google visibility.",
+    ],
+    whyItMatters: [
+      "Listopia lists rank on Google — often above publisher pages and major review sites. A reader searching 'best historical fiction set in nineteenth-century Germany' lands on a Goodreads list, and if you've done this well, your book is on it.",
+      "This is permanent, compounding discoverability. The lists keep ranking, the votes keep accumulating, and your book keeps being discovered by exactly the readers who were already looking for it — long after the campaign ends.",
+      "No ad spend replicates this. Ads stop the moment your card declines. A well-placed Listopia presence keeps working in your sleep, for years.",
+    ],
     deliverables: [
       "Curated list of 15–25 high-intent Listopia lists",
       "Book added to every eligible list",
@@ -222,10 +252,16 @@ export const SERVICES: Service[] = [
     tagline: "Your most powerful lines, ready to post.",
     oneLiner:
       "We pull the unforgettable lines from your book and design them into ready-to-post graphics that feel like your book.",
-    whatItIs:
-      "A curated set of 10–15 visual quote graphics, each pulled from a specific page of your book, designed in your cover's visual language. Sized for Instagram feed, Stories, and Reels covers. You schedule, post, repeat.",
-    whyItMatters:
-      "Quote graphics are the highest-saving, highest-sharing content on Bookstagram. They give readers something to hold onto and pass along — which means your book finds new readers organically while you sleep.",
+    whatItIs: [
+      "A curated set of ten to fifteen visual quote graphics, each pulled from a specific page of your book and designed in the visual language of your cover. Sized for Instagram feed (1:1) and Stories (9:16), with editable Canva templates so you can adjust later without coming back to us.",
+      "We start by reading the book — or working from your highlights — and shortlist thirty quotable moments. Together we pick the final ten to fifteen that hit hardest: lines that strangers will screenshot, lines a Bookstagrammer will pair with a flat-lay, lines that a reader will text to a friend at midnight.",
+      "You also get caption suggestions for each post and a thirty-day posting calendar so the rollout has rhythm rather than being a one-week burst that disappears.",
+    ],
+    whyItMatters: [
+      "Quote graphics are the highest-saving, highest-sharing content on Bookstagram. They give readers something to hold onto and pass along — and the algorithm rewards that kind of engagement far more generously than it rewards cover reveals or 'buy my book' posts.",
+      "Every share is a free, qualified introduction to a new reader. The book finds its audience organically while you sleep, while you write, while you're doing literally anything other than marketing.",
+      "And because the graphics are designed in your cover's visual world, every share also strengthens your book's visual identity — quietly building recognition long before someone is ready to buy.",
+    ],
     deliverables: [
       "10–15 curated quote graphics pulled from your book",
       "Each quote in feed (1:1) and Story (9:16) sizes",
